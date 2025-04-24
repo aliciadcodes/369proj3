@@ -166,8 +166,8 @@ function homePage() {
 
   loadPixels();
 
-  let rectWidth = width/2;
-  let rectHeight = height/2;
+  let rectWidth = 400;
+  let rectHeight = 300;
   let startX = floor((width - rectWidth) / 2);
   let startY = floor((height - rectHeight) / 2);
 
