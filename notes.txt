@@ -1,0 +1,4 @@
+all phases:
+color drop
+vertical gradient - fixing smoothing
+perlin noise
