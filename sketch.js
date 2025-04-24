@@ -7,6 +7,12 @@ let t = 0; // perlin
 let scale = 0.001; // zoom
 let speed = 0.03;
 let page = 0;
+let Monserrat;
+
+function preload()
+{
+  Montserrat = loadFont("Montserrat.ttf");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight * 4/5);
@@ -16,6 +22,7 @@ function setup() {
   textAlign(CENTER, CENTER);
   textSize(16);
   pixelDensity(1);
+  textFont(Montserrat);
 
   decadeColors = [
     // 2020
