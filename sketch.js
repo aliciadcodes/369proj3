@@ -5,50 +5,68 @@ let gradient = 0;
 // let colorSpeed = 0.1; // slower = smoother
 let t = 0; // perlin
 let scale = 0.001; // zoom
-let speed = 0.015;
+let speed = 0.03;
+let page = 0;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, windowHeight * 4/5);
   // console.log(windowHeight);
   // console.log(height);
   angleMode(DEGREES);
   textAlign(CENTER, CENTER);
   textSize(16);
   pixelDensity(1);
-  
+
   decadeColors = [
     // 2020
-     [color(245, 239, 235), // cream
-     color(54, 83, 110), // denim
-    color(173, 157, 134)], // tan
+    [
+      color(245, 239, 235), // cream
+      color(54, 83, 110), // denim
+      color(173, 157, 134),
+    ], // tan
     // 2010
-    [color(252, 199, 208), // millennial pink
-     color(181, 101, 69), // polished copper
-     color(242, 78, 116)], // one million likes
+    [
+      color(252, 199, 208), // millennial pink
+      color(181, 101, 69), // polished copper
+      color(242, 78, 116),
+    ], // one million likes
     // 2000
-    [color(255, 85, 180), // hot pink
-     color(57, 255, 20), // lime green
-     color(0, 183, 235)], // cyanish blue
+    [
+      color(255, 85, 180), // hot pink
+      color(57, 255, 20), // lime green
+      color(0, 183, 235),
+    ], // cyanish blue
     // 1990
-    [color(181, 56, 102), // mauve pink
-     color(217, 179, 54), // dijon
-     color(0, 90, 173)], // dark blue
+    [
+      color(181, 56, 102), // mauve pink
+      color(217, 179, 54), // dijon
+      color(0, 90, 173),
+    ], // dark blue
     // 1980
-    [color(91, 239, 252), // cyan blue
-     color(146, 224, 112), // duller lime green
-     color(209, 69, 158)], // dullish magenta
+    [
+      color(91, 239, 252), // cyan blue
+      color(146, 224, 112), // duller lime green
+      color(209, 69, 158),
+    ], // dullish magenta
     // 1970
-    [color(237, 168, 50), // orange gold
-     color(115, 168, 189), // lighter denim
-     color(128, 65, 28)], // red-orange brown
+    [
+      color(237, 168, 50), // orange gold
+      color(115, 168, 189), // lighter denim
+      color(128, 65, 28),
+    ], // red-orange brown
     // 1960
-    [color(234, 237, 218), // light greenish cream
-     color(220, 245, 176), // yellow-green pastel
-     color(245, 149, 118)], // orange-red pastel-ish
+    [
+      color(234, 237, 218), // light greenish cream
+      color(220, 245, 176), // yellow-green pastel
+      color(245, 149, 118),
+    ], // orange-red pastel-ish
     // 1950
-    [color(149, 224, 245), // sky blue
-     color(112, 153, 109), // light forest green
-     color(166, 18, 35)]]; // slight purple-ish red
+    [
+      color(149, 224, 245), // sky blue
+      color(112, 153, 109), // light forest green
+      color(166, 18, 35),
+    ],
+  ]; // slight purple-ish red
 }
 
 // function draw() {
@@ -115,47 +133,63 @@ function setup() {
 // }
 
 function draw() {
+  // switch (page) {
+  //   case 0: {
+  //     homePage();
+  //     break;
+  //   }
+  //   case 1: {
+  //     let decFloat = ((startAngle + 180 + 25) % 360) / 45;
+  //     let decade = floor(decFloat) % decadeColors.length;
+  //     article(decades[decade]);
+  //     break;
+  //   }
+  // }
+  homePage();
+}
+
+function homePage() {
   background(255);
 
   t += speed;
 
-  let decFloat = (startAngle + 180 + 25) % 360 / 45;
+  let decFloat = ((startAngle + 180 + 25) % 360) / 45;
   let decade = floor(decFloat) % decadeColors.length; // keeps in scope
   let colors = decadeColors[decade];
 
   loadPixels();
 
-  let rectWidth = 400;
-  let rectHeight = 400;
+  let rectWidth = width/2;
+  let rectHeight = height/2;
   let startX = floor((width - rectWidth) / 2);
   let startY = floor((height - rectHeight) / 2);
-  
-   let c0 = colors[0]; // primary color
+
+  let c0 = colors[0]; // primary color
   let c1 = colors[1]; // sec
   let c2 = colors[2]; // third
-  
 
-
-  for (let x = startX; x < startX + rectWidth; x++) {
-    for (let y = startY; y < startY + rectHeight; y++) {
+  for (let x = startX; x < startX + rectWidth; x += 1) {
+    for (let y = startY; y < startY + rectHeight; y+= 1) {
       let nx = (x - startX) * scale;
       let ny = (y - startY) * scale;
-      
+
       let n = noise(nx, ny, t); // [0, 1]
 
       let col;
-       if (n < 0.2) { // primary to second
+      if (n < 0.2) {
+        // primary to second
         let lerpT = map(n, 0.0, 0.2, 0, 2);
         col = lerpColor(c0, c1, lerpT);
-      } else if (n < 0.4) { // second to third
+      } else if (n < 0.4) {
+        // second to third
         let lerpT = map(n, 0.2, 0.4, 0, 1);
         col = lerpColor(c1, c2, lerpT);
-      } 
-      else if (n < 0.6) { // third to primary
+      } else if (n < 0.6) {
+        // third to primary
         let lerpT = map(n, 0.4, 0.6, 0, 2);
         col = lerpColor(c2, c0, lerpT);
-      }
-      else { // primary extension
+      } else {
+        // primary extension
         let lerpT = map(n, 0.6, 1.0, 0, 1);
         col = lerpColor(c0, c0, lerpT);
       }
@@ -167,8 +201,6 @@ function draw() {
       pixels[index + 3] = 255;
     }
   } // messed around a lot with numbers
-  
-  
 
   updatePixels();
   textOnWheel();
@@ -193,5 +225,67 @@ function textOnWheel() {
 }
 
 function mouseWheel(event) {
+  // if (page == 0)
   startAngle += event.delta > 0 ? 3 : -3;
 }
+
+// function mousePressed() {
+//   //   let rad = height * 0.375;
+//   // let centerX = width / 2;
+//   // let centerY = height / 2;
+//   // let offset = dist(mouseX, mouseY, centerX + rad * cos(180) + width / 2, centerY + rad * sin(180));
+//   // if (offset <= 40) {
+//   //   page = 1;
+//   //   background(255);
+//   // }
+// }
+
+// function article(dec) {
+//   background(255);
+//   textSize(24);
+  
+//   textAlign(CENTER, CENTER);
+//   let content = "";
+//   switch (dec) {
+//     case "1950":
+      
+//       break;
+//     case "1960":
+      
+//       break;
+//     case "1970":
+      
+//       break;
+//     case "1980":
+      
+//       break;
+//     case "1990":
+      
+//       break;
+//     case "2000":
+      
+//       break;
+//     case "2010":
+      
+//           case "2020":
+      
+//       break;
+//     default:
+//       content = "";
+//   }
+// let margin = 50;
+//   let maxWidth = width - margin * 2;
+
+//   let words = content.split(' ');
+//   let lines = [];
+//   let line = '';
+
+//   for (let i = 0; i < words.length; i++) {
+//     let testLine = line + words[i] + ' ';
+    
+//       lines.push(line);
+//       line = words[i] + ' ';
+//     }
+  
+
+// }
