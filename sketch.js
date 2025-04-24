@@ -15,7 +15,7 @@ function preload()
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight * 4/5);
+  createCanvas(windowWidth, windowHeight);
   // console.log(windowHeight);
   // console.log(height);
   angleMode(DEGREES);
