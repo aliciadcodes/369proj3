@@ -32,7 +32,7 @@ h1 {
 
 a {
   text-decoration: none;
-  color: #0066cc;
+  color: black;
   font-weight: 700; /* Ensure links are bold too */
   font-size: 15px;
 }
