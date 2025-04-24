@@ -4,7 +4,6 @@ body {
   margin: 0;
   background-color: white;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 700; /* Bold */
   color: black;
     display: flex;
   flex-wrap: wrap;
@@ -12,6 +11,7 @@ body {
   gap: 30px;
   margin: 0 0 10px 0;
   font-size: 15px;
+  font-color: black;
 }
 
 .sketch-container {
